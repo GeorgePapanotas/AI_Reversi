@@ -10,6 +10,11 @@ public class node<V> {
         this.children = children;
     }
 
+    public node(V data){
+        this.data = data;
+        children = new ArrayList<node<V>>();
+    }
+
     public void setData(V data){this.data = data;}
 
     public V getData(){return this.data;}
@@ -20,5 +25,6 @@ public class node<V> {
         return children.isEmpty();
     }
 
+    public void addChild(node<V> child){children.add(child);}
 
 }
