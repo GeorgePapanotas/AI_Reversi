@@ -25,6 +25,9 @@ public class node<V> {
         return children.isEmpty();
     }
 
+    public void prune(int x){
+        this.children.remove(x);
+    }
     public void addChild(node<V> child){children.add(child);}
 
 }
