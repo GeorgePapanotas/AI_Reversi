@@ -20,5 +20,8 @@ public class node<V> {
         return children.isEmpty();
     }
 
+    public void prune(int x){
+        this.children.remove(x);
+    }
 
 }
