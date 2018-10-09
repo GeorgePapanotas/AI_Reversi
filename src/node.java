@@ -3,7 +3,7 @@ import java.util.ArrayList;
 public class node<V> {
 
     V data;
-    ArrayList<node<V>> children = new ArrayList<>();
+    ArrayList<node<V>> children;
 
     public node(V data,ArrayList<node<V>> children){
         this.data= data;
