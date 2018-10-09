@@ -9,7 +9,8 @@ public class DisplayBoard {
         b.display();
         System.out.println();
         Scanner s = new Scanner(System.in);
-        int a = s.nextInt();
+
+        int a = 1;
         int player = 1;
 
         while(a != -1){
