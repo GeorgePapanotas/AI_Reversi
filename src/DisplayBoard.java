@@ -16,15 +16,21 @@ public class DisplayBoard implements Moves{
 
             MoveCoord move = getMoves(player);
 
-            RayTest(move,b);
-            b.updateBoard(player,move.getRow(),move.getCol());
-            b.display();
-
-            if(player == 1){
-                player = 2;
+            if(RayTest(move,b,player,true)){
+                b.updateBoard(player,move.getRow(),move.getCol());
+                b.display();
+                if(player == 1){
+                    player = 2;
+                }else{
+                    player = 1;
+                }
             }else{
-                player = 1;
+                System.out.println("Select valid");
             }
+
+
+
+
         }
 
 
@@ -53,43 +59,44 @@ public class DisplayBoard implements Moves{
         return new Moves.MoveCoord(row,col);
     }
 
-    private static void RayTest(Moves.MoveCoord m,Board b){
-//        int j=m.getCol();
-//        int x=m.getRow();
-//
-//        for(int i = 0;i<=7;i++){
-//            switch(i){
-//                case 1:
-//                    while(j!=6){
-//                        //estw W
-//                        if(b.goToCell(i,j++) == '-' || b.goToCell(i,j) == 'W'){
-//                            System.out.println("non valid");
-//                            break;
-//                        }
-//                    }
-//                    break;
-//            }
-//        }
+    private static boolean RayTest(Moves.MoveCoord m,Board b,int player,boolean flip){
+        char opponent;
+        char self;
+        if(player == 1){
+            opponent = 'B';
+            self = 'W';
+        }else{
+            opponent = 'W';
+            self = 'B';
+        }
+
         int x = m.getRow();
         int y = m.getCol();
+        if(b.goToCell(x,y)!='-'){
+            return false;
+        }
         boolean found = false;
         for(int i = -1; i <= 1; i++){
             for(int j = -1; j <= 1; j++){
                 if(!(j==0 && i==0)){
-                    char current = b.goToCell(x+i,y+j);
-                    if(current=='-'||current=='W') break;
-                    if(current == 'B'){
+                    x=m.getRow()+i;
+                    y=m.getCol()+j;
+                    char current = b.goToCell(x,y);
+                    if(current == opponent){
                         while(!found) {
-                            current = b.goToCell(x+i,y+j);
-                            if(current == 'W'){
+                            x=x+i;
+                            y=y+j;
+                            current = b.goToCell(x,y);
+                            if(current == self){
                                 found = true;
                                 break;
-                            }else if(current != 'B') break;
+                            }else if(current != opponent) break;
                         }
                     }
                 }
             }
         }
+        return found;
     }
 
     //east                  j++

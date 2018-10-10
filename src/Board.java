@@ -39,6 +39,9 @@ public class Board {
     }
 
     public char goToCell(int xpos,int ypos){
+        if(xpos < 0 || xpos > 7 || ypos < 0 || ypos > 7){
+            return '-';
+        }
         return this.a[xpos][ypos];
     }
 
