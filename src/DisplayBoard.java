@@ -15,7 +15,7 @@ public class DisplayBoard implements Moves{
         while(a != -1){
 
             MoveCoord move = getMoves(player);
-            b.updateBoard(player,move.getRow(),move.getCol());
+            b.updateBoard(player,move.getCol(),move.getRow());
             b.display();
 
             if(player == 1){
@@ -40,7 +40,7 @@ public class DisplayBoard implements Moves{
             in = s.next();
         }
         row = (int) (in.charAt(0) - 'A');
-        col = in.charAt(1);
+        col = Integer.parseInt(String.valueOf(in.charAt(1))) - 1;
 //        int row = s.nextInt();
 //        int col = s.nextInt();
 //        while((row<0 || row >7) || (col<0 || col>7)){
