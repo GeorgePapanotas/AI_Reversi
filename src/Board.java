@@ -38,6 +38,9 @@ public class Board {
         this.a[xpos][ypos] = s;
     }
 
+    public char goToCell(int xpos,int ypos){
+        return this.a[xpos][ypos];
+    }
 
 
 

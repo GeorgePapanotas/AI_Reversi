@@ -22,5 +22,9 @@ public interface Moves {
         public void setCol(int col) {
             this.col = col;
         }
+
+        public boolean isEnd(){
+            return this.col == 7 || this.col == 0 || this.row == 0 || this.row == 7;
+        }
     }
 }

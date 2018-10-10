@@ -15,6 +15,8 @@ public class DisplayBoard implements Moves{
         while(a != -1){
 
             MoveCoord move = getMoves(player);
+
+            RayTest(move,b);
             b.updateBoard(player,move.getCol(),move.getRow());
             b.display();
 
@@ -50,4 +52,32 @@ public class DisplayBoard implements Moves{
 //        }
         return new Moves.MoveCoord(row,col);
     }
+
+    private static void RayTest(Moves.MoveCoord m,Board b){
+        int j=m.getCol();
+        int x=m.getRow();
+
+        for(int i = 0;i<=7;i++){
+            switch(i){
+                case 1:
+                    while(j!=6){
+                        //estw W
+                        if(b.goToCell(i,j++) == '-' || b.goToCell(i,j) == 'W'){
+                            System.out.println("non valid");
+                            break;
+                        }
+                    }
+                    break;
+            }
+        }
+    }
+
+    //east                  j++
+    //west                  j--
+    //north                 i--
+    //south                 i++
+    //south east            i++ j++
+    //south west            i++ j--
+    //north east            i-- j++
+    //north west            i-- j--
 }
