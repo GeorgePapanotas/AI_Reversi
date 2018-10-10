@@ -18,7 +18,9 @@ public class Board {
     }
 
     public void display(){
+        System.out.println(" ABCDEFGH");
         for(int i = 0; i < 8; i++){
+            System.out.print(i + 1);
             for(int j = 0; j<8;j++){
                 System.out.print(this.a[i][j]);
             }
