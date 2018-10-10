@@ -18,11 +18,11 @@ public class Board {
     }
 
     public void display(){
-        System.out.println(" ABCDEFGH");
+        System.out.println("  A B C D E F G H");
         for(int i = 0; i < 8; i++){
-            System.out.print(i + 1);
+            System.out.print(i + 1+" ");
             for(int j = 0; j<8;j++){
-                System.out.print(this.a[i][j]);
+                System.out.print(this.a[i][j]+" ");
             }
             System.out.println();
         }

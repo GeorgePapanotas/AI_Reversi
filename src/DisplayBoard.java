@@ -1,12 +1,17 @@
 import java.util.Scanner;
 
 public class DisplayBoard implements Moves{
+
+    static int scoreW,scoreB;
     private static Board b;
 
     public static void main(String [] args){
         b = new Board();
+        ScoreCounter(b);
+
 
         b.display();
+        System.out.println("White: "+scoreW+"   Black: "+scoreB);
         System.out.println();
 
         int a = 1;
@@ -19,6 +24,8 @@ public class DisplayBoard implements Moves{
             if(RayTest(move,b,player,true)){
                 b.updateBoard(player,move.getRow(),move.getCol());
                 b.display();
+                ScoreCounter(b);
+                System.out.println("White: "+scoreW+"   Black: "+scoreB);
                 if(player == 1){
                     player = 2;
                 }else{
@@ -43,11 +50,11 @@ public class DisplayBoard implements Moves{
         int row, col;
         String in = s.next();
 
-        while(!in.matches("[ABCDEFGH][12345678]")){
+        while(!in.matches("[ABCDEFGH][12345678]") && !in.matches("[abcedfgh][12345678]")){
             System.out.println("Dude make a valid input (A1)");
             in = s.next();
         }
-        col = (int) (in.charAt(0) - 'A');
+        col = (int) (Character.toUpperCase(in.charAt(0)) - 'A');
         row = Integer.parseInt(String.valueOf(in.charAt(1))) - 1;
 //        int row = s.nextInt();
 //        int col = s.nextInt();
@@ -116,4 +123,19 @@ public class DisplayBoard implements Moves{
     //south west            i++ j--
     //north east            i-- j++
     //north west            i-- j--
+
+    public static void ScoreCounter(Board b){
+        scoreW =0;
+        scoreB = 0;
+        for(int i = 0;i<=7;i++){
+            for(int j = 0;j<=7;j++){
+                if(b.goToCell(i,j) == 'B'){
+                    scoreB++;
+                }else if(b.goToCell(i,j) == 'W'){
+                    scoreW++;
+                }
+
+            }
+        }
+    }
 }
