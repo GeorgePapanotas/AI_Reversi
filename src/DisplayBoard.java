@@ -1,3 +1,4 @@
+import java.util.ArrayList;
 import java.util.Scanner;
 
 public class DisplayBoard implements Moves{
@@ -5,15 +6,11 @@ public class DisplayBoard implements Moves{
     static int scoreW,scoreB;
     private static Board b;
     private static final int ALLTILES = 64;
+    private static ArrayList<MoveCoord> listOfMoves;
+
     public static void main(String [] args){
         b = new Board();
         ScoreCounter(b);
-
-
-//        b.display();
-//        System.out.println("White: "+scoreW+"   Black: "+scoreB);
-//        System.out.println();
-
         int a = 1;
         int player = 1;
 
@@ -25,7 +22,7 @@ public class DisplayBoard implements Moves{
             if(RayTest(move,b,player,true)){
 //                b.updateBoard(player,move.getRow(),move.getCol());
 //                b.display();
-                displayAvailableMoves(player);
+                listOfMoves = displayAvailableMoves(player);
                 ScoreCounter(b);
                 System.out.println("White: "+scoreW+"   Black: "+scoreB);
                 if(player == 1){
@@ -52,13 +49,7 @@ public class DisplayBoard implements Moves{
         }
         col = (int) (Character.toUpperCase(in.charAt(0)) - 'A');
         row = Integer.parseInt(String.valueOf(in.charAt(1))) - 1;
-//        int row = s.nextInt();
-//        int col = s.nextInt();
-//        while((row<0 || row >7) || (col<0 || col>7)){
-//            System.out.println("Dude make a valid move (>=0, <=7)");
-////            row = s.nextInt();
-////            col = s.nextInt();
-//        }
+
         return new Moves.MoveCoord(row,col);
     }
 
@@ -112,14 +103,16 @@ public class DisplayBoard implements Moves{
         }
     }
 
-    private static void displayAvailableMoves(int player){
+    private static ArrayList<MoveCoord> displayAvailableMoves(int player){
 //        char playerToken = (player==1)? 'W':'B';
+        ArrayList<MoveCoord> listOfMoves = new ArrayList<>();
         for(int i=1;i<8;i++){
             for(int j=1;j<8;j++){
                 char current = b.goToCell(i,j);
                 if(!(current=='W'||current=='B')){
                     if(RayTest(new MoveCoord(i,j),b,player,false)){
                         if(current != 'O') b.updateEmpty(i,j,'O');
+                        listOfMoves.add(new MoveCoord(i,j));
                     }else{
                         if(current != '-') b.updateEmpty(i,j,'-');
                     }
@@ -127,6 +120,7 @@ public class DisplayBoard implements Moves{
             }
         }
         b.display();
+        return listOfMoves;
     }
 
     //east                  j++
