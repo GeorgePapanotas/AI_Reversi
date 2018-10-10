@@ -15,7 +15,7 @@ public class DisplayBoard implements Moves{
         while(a != -1){
 
             MoveCoord move = getMoves(player);
-            b.updateBoard(player,move.getRow() -1,move.getCol()-1);
+            b.updateBoard(player,move.getRow(),move.getCol());
             b.display();
 
             if(player == 1){
@@ -32,13 +32,22 @@ public class DisplayBoard implements Moves{
     private static Moves.MoveCoord getMoves(int player){
         Scanner s = new Scanner(System.in);
         System.out.println("Player "+player+" make your move");
-        int row = s.nextInt();
-        int col = s.nextInt();
-        while((row<0 || row >7) || (col<0 || col>7)){
-            System.out.println("Dude make a valid move (>=0, <=7)");
-            row = s.nextInt();
-            col = s.nextInt();
+        int row, col;
+        String in = s.next();
+
+        while(!in.matches("[ABCDEFGH][12345678]")){
+            System.out.println("Dude make a valid input (A1)");
+            in = s.next();
         }
+        row = (int) (in.charAt(0) - 'A');
+        col = in.charAt(1);
+//        int row = s.nextInt();
+//        int col = s.nextInt();
+//        while((row<0 || row >7) || (col<0 || col>7)){
+//            System.out.println("Dude make a valid move (>=0, <=7)");
+////            row = s.nextInt();
+////            col = s.nextInt();
+//        }
         return new Moves.MoveCoord(row,col);
     }
 }
