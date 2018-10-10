@@ -4,7 +4,7 @@ public class DisplayBoard implements Moves{
 
     static int scoreW,scoreB;
     private static Board b;
-
+    private static final int ALLTILES = 64;
     public static void main(String [] args){
         b = new Board();
         ScoreCounter(b);
@@ -17,7 +17,7 @@ public class DisplayBoard implements Moves{
         int a = 1;
         int player = 1;
 
-        while(a != -1){
+        while(scoreB + scoreW <= ALLTILES){
 
             MoveCoord move = getMoves(player);
 
@@ -46,7 +46,7 @@ public class DisplayBoard implements Moves{
 
     private static Moves.MoveCoord getMoves(int player){
         Scanner s = new Scanner(System.in);
-        System.out.println("Player "+player+" make your move");
+        System.out.println("Player "+player+" make your move ( "+(player == 1?"W ).":"B )."));
         int row, col;
         String in = s.next();
 
