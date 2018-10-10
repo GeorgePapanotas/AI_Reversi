@@ -54,20 +54,40 @@ public class DisplayBoard implements Moves{
     }
 
     private static void RayTest(Moves.MoveCoord m,Board b){
-        int j=m.getCol();
-        int x=m.getRow();
-
-        for(int i = 0;i<=7;i++){
-            switch(i){
-                case 1:
-                    while(j!=6){
-                        //estw W
-                        if(b.goToCell(i,j++) == '-' || b.goToCell(i,j) == 'W'){
-                            System.out.println("non valid");
-                            break;
+//        int j=m.getCol();
+//        int x=m.getRow();
+//
+//        for(int i = 0;i<=7;i++){
+//            switch(i){
+//                case 1:
+//                    while(j!=6){
+//                        //estw W
+//                        if(b.goToCell(i,j++) == '-' || b.goToCell(i,j) == 'W'){
+//                            System.out.println("non valid");
+//                            break;
+//                        }
+//                    }
+//                    break;
+//            }
+//        }
+        int x = m.getRow();
+        int y = m.getCol();
+        boolean found = false;
+        for(int i = -1; i <= 1; i++){
+            for(int j = -1; j <= 1; j++){
+                if(!(j==0 && i==0)){
+                    char current = b.goToCell(x+i,y+j);
+                    if(current=='-'||current=='W') break;
+                    if(current == 'B'){
+                        while(!found) {
+                            current = b.goToCell(x+i,y+j);
+                            if(current == 'W'){
+                                found = true;
+                                break;
+                            }else if(current != 'B') break;
                         }
                     }
-                    break;
+                }
             }
         }
     }
