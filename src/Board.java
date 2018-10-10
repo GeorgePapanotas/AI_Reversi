@@ -1,5 +1,5 @@
 public class Board {
-    char a[][] = new char[8][8];
+    private char a[][] = new char[8][8];
 
     public Board(){
 
@@ -45,6 +45,9 @@ public class Board {
         return this.a[xpos][ypos];
     }
 
+    public void updateEmpty(int xPos, int yPos, char symbol){
+        this.a[xPos][yPos] = symbol;
+    }
 
 
 }

@@ -10,20 +10,23 @@ public class DisplayBoard implements Moves{
         ScoreCounter(b);
 
 
-        b.display();
-        System.out.println("White: "+scoreW+"   Black: "+scoreB);
-        System.out.println();
+//        b.display();
+//        System.out.println("White: "+scoreW+"   Black: "+scoreB);
+//        System.out.println();
 
         int a = 1;
         int player = 1;
+
+        displayAvailableMoves(player);
 
         while(a != -1){
 
             MoveCoord move = getMoves(player);
 
             if(RayTest(move,b,player,true)){
-                b.updateBoard(player,move.getRow(),move.getCol());
-                b.display();
+//                b.updateBoard(player,move.getRow(),move.getCol());
+//                b.display();
+                displayAvailableMoves(player);
                 ScoreCounter(b);
                 System.out.println("White: "+scoreW+"   Black: "+scoreB);
                 if(player == 1){
@@ -34,13 +37,7 @@ public class DisplayBoard implements Moves{
             }else{
                 System.out.println("Select valid");
             }
-
-
-
-
         }
-
-
         b.display();
     }
 
@@ -79,7 +76,8 @@ public class DisplayBoard implements Moves{
 
         int x = m.getRow();
         int y = m.getCol();
-        if(b.goToCell(x,y)!='-'){
+        char token = b.goToCell(x,y);
+        if(token!='-'&&token!='O'){
             return false;
         }
         boolean found = false;
@@ -113,6 +111,23 @@ public class DisplayBoard implements Moves{
             yPos = yPos - j;
             b.updateBoard(player,xPos,yPos);
         }
+    }
+
+    private static void displayAvailableMoves(int player){
+//        char playerToken = (player==1)? 'W':'B';
+        for(int i=1;i<8;i++){
+            for(int j=1;j<8;j++){
+                char current = b.goToCell(i,j);
+                if(!(current=='W'||current=='B')){
+                    if(RayTest(new MoveCoord(i,j),b,player,false)){
+                        if(current != 'O') b.updateEmpty(i,j,'O');
+                    }else{
+                        if(current != '-') b.updateEmpty(i,j,'-');
+                    }
+                }
+            }
+        }
+        b.display();
     }
 
     //east                  j++
