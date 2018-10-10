@@ -1,6 +1,6 @@
 import java.util.Scanner;
 
-public class DisplayBoard {
+public class DisplayBoard implements Moves{
 
     static int xpos = -1,ypos = -1;
     public static void main(String [] args){
@@ -14,8 +14,8 @@ public class DisplayBoard {
 
         while(a != -1){
 
-            getMoves(player);
-            b.updateBoard(player,xpos-1,ypos-1);
+            MoveCoord move = getMoves(player);
+            b.updateBoard(player,move.getRow() -1,move.getCol()-1);
             b.display();
 
             if(player == 1){
@@ -29,15 +29,16 @@ public class DisplayBoard {
         b.display();
     }
 
-    private static void getMoves(int player){
+    private static Moves.MoveCoord getMoves(int player){
         Scanner s = new Scanner(System.in);
         System.out.println("Player "+player+" make your move");
-        xpos = s.nextInt();
-        ypos = s.nextInt();
+        int row = s.nextInt();
+        int col = s.nextInt();
         while((xpos<0 || xpos >7) || (ypos<0 || ypos>7)){
             System.out.println("Dude make a valid move (>=0, <=7)");
-            xpos = s.nextInt();
-            ypos = s.nextInt();
+            row = s.nextInt();
+            col = s.nextInt();
         }
+        return new Moves.MoveCoord(row,col);
     }
 }
