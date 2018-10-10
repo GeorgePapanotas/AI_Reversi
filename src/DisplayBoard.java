@@ -90,7 +90,7 @@ public class DisplayBoard implements Moves{
                     y=m.getCol()+j;
                     char current = b.goToCell(x,y);
                     if(current == opponent){
-                        while(!found) {
+                        while(true) {
                             x=x+i;
                             y=y+j;
                             current = b.goToCell(x,y);
