@@ -1,10 +1,10 @@
 import java.util.Scanner;
 
 public class DisplayBoard implements Moves{
-
+    private static Board b;
 
     public static void main(String [] args){
-        Board b = new Board();
+        b = new Board();
 
         b.display();
         System.out.println();
@@ -89,6 +89,7 @@ public class DisplayBoard implements Moves{
                             current = b.goToCell(x,y);
                             if(current == self){
                                 found = true;
+                                if(flip) flip(i,j,x,y,m,player);
                                 break;
                             }else if(current != opponent) break;
                         }
@@ -97,6 +98,14 @@ public class DisplayBoard implements Moves{
             }
         }
         return found;
+    }
+
+    private static void flip(int i, int j, int xPos, int yPos, MoveCoord moveCoord, int player){
+        while(xPos != moveCoord.getRow() || yPos != moveCoord.getCol()){
+            xPos = xPos - i;
+            yPos = yPos - j;
+            b.updateBoard(player,xPos,yPos);
+        }
     }
 
     //east                  j++
