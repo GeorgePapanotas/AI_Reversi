@@ -17,7 +17,7 @@ public class DisplayBoard implements Moves{
             MoveCoord move = getMoves(player);
 
             RayTest(move,b);
-            b.updateBoard(player,move.getCol(),move.getRow());
+            b.updateBoard(player,move.getRow(),move.getCol());
             b.display();
 
             if(player == 1){
@@ -41,8 +41,8 @@ public class DisplayBoard implements Moves{
             System.out.println("Dude make a valid input (A1)");
             in = s.next();
         }
-        row = (int) (in.charAt(0) - 'A');
-        col = Integer.parseInt(String.valueOf(in.charAt(1))) - 1;
+        col = (int) (in.charAt(0) - 'A');
+        row = Integer.parseInt(String.valueOf(in.charAt(1))) - 1;
 //        int row = s.nextInt();
 //        int col = s.nextInt();
 //        while((row<0 || row >7) || (col<0 || col>7)){
