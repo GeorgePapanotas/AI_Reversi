@@ -1,6 +1,8 @@
 import java.util.ArrayList;
 import java.util.Scanner;
 
+//test game D3 E3 F4 G3 F3 C5 H3 F2 C4 C3 E2 E1 B3 H4 H5 A3
+
 public class DisplayBoard implements Moves{
 
     static int scoreW,scoreB;
@@ -12,29 +14,48 @@ public class DisplayBoard implements Moves{
         b = new Board();
         ScoreCounter(b);
         int a = 1;
-        int player = 1;
+        int player = 2;
+        int end=0;
 
-        displayAvailableMoves(player);
-        while(scoreB + scoreW <= ALLTILES){
+        listOfMoves = displayAvailableMoves(player);
+        while(scoreB + scoreW <= ALLTILES || end == 2){
+
+            if(listOfMoves.isEmpty()){
+                end++;
+                System.out.println("Player "+player+" has no available moves. Skipped Turn.");
+                player = (player == 1)? 2:1;
+                listOfMoves = displayAvailableMoves(player);
+                if(listOfMoves.isEmpty()){
+                    System.out.println("Player "+player+" has no available moves. Game concluded.");
+                    break;
+                }
+            }else{
+                end=0;
+            }
 
             MoveCoord move = getMoves(player);
 
             if(RayTest(move,b,player,true)){
 //                b.updateBoard(player,move.getRow(),move.getCol());
 //                b.display();
-                listOfMoves = displayAvailableMoves(player);
-                ScoreCounter(b);
-                System.out.println("White: "+scoreW+"   Black: "+scoreB);
-                if(player == 1){
-                    player = 2;
-                }else{
-                    player = 1;
-                }
+
+                player = (player == 1)? 2:1;
             }else{
                 System.out.println("Select valid");
             }
+            listOfMoves = displayAvailableMoves(player);
+            ScoreCounter(b);
+            System.out.println("White: "+scoreW+"   Black: "+scoreB);
+
         }
         b.display();
+        if(scoreB>scoreW){
+            System.out.println("Player 2(B) is the winner with "+scoreB+" over "+scoreW);
+        }else if(scoreB<scoreW){
+            System.out.println("Player 1(W) is the winner with "+scoreW+" over "+scoreB);
+        }else{
+            System.out.println("The game is draw! "+scoreW+" - "+scoreB);
+        }
     }
 
     private static Moves.MoveCoord getMoves(int player){
