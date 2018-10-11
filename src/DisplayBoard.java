@@ -13,8 +13,10 @@ public class DisplayBoard implements Moves{
     public static void main(String [] args){
         b = new Board();
         ScoreCounter(b);
-        int a = 1;
-        int player = 2;
+        Scanner s = new Scanner(System.in);
+        System.out.print("Please select your turn (1,2): ");
+
+        int player = s.nextInt();
         int end=0;
 
         listOfMoves = displayAvailableMoves(player);
@@ -60,7 +62,7 @@ public class DisplayBoard implements Moves{
 
     private static Moves.MoveCoord getMoves(int player){
         Scanner s = new Scanner(System.in);
-        System.out.println("Player "+player+" make your move ( "+(player == 1?"W ).":"B )."));
+        System.out.println("Player "+player+" make your move ( "+(player == 1?"B ).":"W )."));
         int row, col;
         String in = s.next();
 
@@ -78,11 +80,11 @@ public class DisplayBoard implements Moves{
         char opponent;
         char self;
         if(player == 1){
-            opponent = 'B';
-            self = 'W';
-        }else{
             opponent = 'W';
             self = 'B';
+        }else{
+            opponent = 'B';
+            self = 'W';
         }
 
         int x = m.getRow();

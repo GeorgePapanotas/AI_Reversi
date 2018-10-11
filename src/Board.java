@@ -32,8 +32,8 @@ public class Board {
         char s = '0';
 
         switch (player){
-            case 1: s = 'W';break;
-            case 2: s = 'B';break;
+            case 1: s = 'B';break;
+            case 2: s = 'W';break;
         }
         this.a[xpos][ypos] = s;
     }
