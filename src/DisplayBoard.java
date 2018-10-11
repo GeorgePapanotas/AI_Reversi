@@ -9,54 +9,40 @@ public class DisplayBoard implements Moves{
     private static Board b;
     private static final int ALLTILES = 64;
     private static ArrayList<MoveCoord> listOfMoves;
-
+    private static int player,user;
     public static void main(String [] args){
         b = new Board();
         ScoreCounter(b);
         Scanner s = new Scanner(System.in);
         System.out.print("Please select your turn (1,2): ");
 
-        int player = s.nextInt();
-        int end=0;
+        int k;
+
+        player = s.nextInt();
+        user = player;
 
         listOfMoves = displayAvailableMoves(player);
-        while(scoreB + scoreW <= ALLTILES || end == 2){
-
-            if(listOfMoves.isEmpty()){
-                end++;
-                System.out.println("Player "+player+" has no available moves. Skipped Turn.");
-                player = (player == 1)? 2:1;
-                listOfMoves = displayAvailableMoves(player);
-                if(listOfMoves.isEmpty()){
-                    System.out.println("Player "+player+" has no available moves. Game concluded.");
+        while(scoreB + scoreW <= ALLTILES){
+            if(player == user){
+                k = playerTurn();
+                if(k == -1){
                     break;
                 }
             }else{
-                end=0;
+                k = CPUturn();
+                if(k == -1){
+                    break;
+                }
             }
-
-            MoveCoord move = getMoves(player);
-
-            if(RayTest(move,b,player,true)){
-//                b.updateBoard(player,move.getRow(),move.getCol());
-//                b.display();
-
-                player = (player == 1)? 2:1;
-            }else{
-                System.out.println("Select valid");
-            }
-            listOfMoves = displayAvailableMoves(player);
-            ScoreCounter(b);
-            System.out.println("White: "+scoreW+"   Black: "+scoreB);
 
         }
         b.display();
         if(scoreB>scoreW){
-            System.out.println("Player 2(B) is the winner with "+scoreB+" over "+scoreW);
+            System.out.println("Player 1 (B) is the winner with "+(64 - scoreW)+" over "+scoreW);
         }else if(scoreB<scoreW){
-            System.out.println("Player 1(W) is the winner with "+scoreW+" over "+scoreB);
+            System.out.println("Player 2 (W) is the winner with "+(64 - scoreB)+" over "+scoreB);
         }else{
-            System.out.println("The game is draw! "+scoreW+" - "+scoreB);
+            System.out.println("The game is draw! 32 - 32");
         }
     }
 
@@ -155,7 +141,7 @@ public class DisplayBoard implements Moves{
     //north east            i-- j++
     //north west            i-- j--
 
-    public static void ScoreCounter(Board b){
+    private static void ScoreCounter(Board b){
         scoreW =0;
         scoreB = 0;
         for(int i = 0;i<=7;i++){
@@ -169,4 +155,38 @@ public class DisplayBoard implements Moves{
             }
         }
     }
+
+    private static int playerTurn(){
+        if(listOfMoves.isEmpty()){
+            System.out.println("Player "+player+" has no available moves. Skipped Turn.");
+            player = (player == 1)? 2:1;
+            listOfMoves = displayAvailableMoves(player);
+            if(listOfMoves.isEmpty()){
+                System.out.println("Player "+player+" has no available moves. Game concluded.");
+                return -1;
+            }
+        }
+
+        MoveCoord move = getMoves(player);
+
+        if(RayTest(move,b,player,true)){
+//                b.updateBoard(player,move.getRow(),move.getCol());
+//                b.display();
+
+            player = (player == 1)? 2:1;
+        }else{
+            System.out.println("Select valid");
+        }
+        listOfMoves = displayAvailableMoves(player);
+        ScoreCounter(b);
+        System.out.println("White: "+scoreW+"   Black: "+scoreB);
+
+        return 0;
+    }
+
+    private static int CPUturn(){
+        //TODO: Implement AI
+        return playerTurn();
+    }
+
 }
