@@ -122,14 +122,15 @@ public class Board {
         return listOfMoves;
     }
     public void clearAvailableMarker () {
-        char current = this.goToCell(i,j);
-        for(int i=1;i<8;i++){
-            for(int j=1;j<8;j++){
-
-            }
-                if(current =='O'){
-                    current ='-'
+        char current;
+        for(int i=0;i<8;i++){
+            for(int j=0;j<8;j++){
+                 current = this.goToCell(i,j);
+                if(current == 'O'){
+                    current = '-';
                 }
+            }
+
             }
     }
 }
