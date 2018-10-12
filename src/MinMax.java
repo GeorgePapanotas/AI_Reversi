@@ -23,7 +23,7 @@ public class MinMax {
                 root.getData().setAlpha(Math.max(root.getData().getAlpha(),value));
                 if(root.getData().getAlpha() >= root.getData().getBeta()) break;
             }
-            //TODO: Plug in eval
+            root.getData().setScore(value);
             return new Moves.GameState();
         }else{
             value = Integer.MAX_VALUE;
@@ -34,6 +34,7 @@ public class MinMax {
                 if(root.getData().getBeta() <= root.getData().getAlpha()) break;
             }
             //TODO: Plug in eval
+            root.getData().setBeta(value);
             return new Moves.GameState();
         }
     }
