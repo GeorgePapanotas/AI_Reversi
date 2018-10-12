@@ -115,11 +115,15 @@ public class Board {
                         }
                     }
                 }
-                for(Moves.MoveCoord move : listOfMoves){
-                    System.out.print(move.toString());
-        }
-
         return listOfMoves;
     }
+
+    public void displayAvailableMoves(ArrayList<Moves.MoveCoord> listOfMoves){
+        for(Moves.MoveCoord move : listOfMoves){
+            this.updateEmpty(move.getCol(),move.getRow(),'O');
+        }
+    }
+
+
 
 }
