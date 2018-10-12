@@ -25,7 +25,7 @@ public class Evaluation {
 
     public int mobility(int maxPlayerMoves,int minPlayerMoves){
         if(maxPlayerMoves + minPlayerMoves != 0){
-            return  100 * (maxPlayerMoves - minPlayerMoves) / (maxPlayerMoves + minPlayerMoves)
+            return  100 * (maxPlayerMoves - minPlayerMoves) / (maxPlayerMoves + minPlayerMoves);
         }else{
             return 0;
         }

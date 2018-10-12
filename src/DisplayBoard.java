@@ -62,55 +62,9 @@ public class DisplayBoard implements Moves{
         return new Moves.MoveCoord(row,col);
     }
 
-    private static boolean RayTest(Moves.MoveCoord m,Board b,int player,boolean flip){
-        char opponent;
-        char self;
-        if(player == 1){
-            opponent = 'W';
-            self = 'B';
-        }else{
-            opponent = 'B';
-            self = 'W';
-        }
 
-        int x = m.getRow();
-        int y = m.getCol();
-        char token = b.goToCell(x,y);
-        if(token!='-'&&token!='O'){
-            return false;
-        }
-        boolean found = false;
-        for(int i = -1; i <= 1; i++){
-            for(int j = -1; j <= 1; j++){
-                if(!(j==0 && i==0)){
-                    x=m.getRow()+i;
-                    y=m.getCol()+j;
-                    char current = b.goToCell(x,y);
-                    if(current == opponent){
-                        while(true) {
-                            x += i;
-                            y += j;
-                            current = b.goToCell(x,y);
-                            if(current == self){
-                                found = true;
-                                if(flip) flip(i,j,x,y,m,player);
-                                break;
-                            }else if(current != opponent) break;
-                        }
-                    }
-                }
-            }
-        }
-        return found;
-    }
 
-    private static void flip(int i, int j, int xPos, int yPos, MoveCoord moveCoord, int player){
-        while(xPos != moveCoord.getRow() || yPos != moveCoord.getCol()){
-            xPos = xPos - i;
-            yPos = yPos - j;
-            b.updateBoard(player,xPos,yPos);
-        }
-    }
+
 
     private static ArrayList<MoveCoord> displayAvailableMoves(int player){
 //        char playerToken = (player==1)? 'W':'B';
@@ -119,7 +73,7 @@ public class DisplayBoard implements Moves{
             for(int j=1;j<8;j++){
                 char current = b.goToCell(i,j);
                 if(!(current=='W'||current=='B')){
-                    if(RayTest(new MoveCoord(i,j),b,player,false)){
+                    if(b.RayTest(new MoveCoord(i,j),b,player,false)){
                         if(current != 'O') b.updateEmpty(i,j,'O');
                         listOfMoves.add(new MoveCoord(i,j));
                     }else{
@@ -131,6 +85,55 @@ public class DisplayBoard implements Moves{
         b.display();
         return listOfMoves;
     }
+
+    //public input board + move  return board
+
+
+
+//    public static Board executeMove(int player, Board c,MoveCoord m){
+//        Board newBoard = c;
+//        char opponent;
+//        char self;
+//
+//        if(player == 1){
+//            opponent = 'W';
+//            self = 'B';
+//        }else{
+//            opponent = 'B';
+//            self = 'W';
+//        }
+//
+//        int x = m.getRow();
+//        int y = m.getCol();
+//        char token = newBoard.goToCell(x,y);
+//        if(token!='-'&&token!='O'){
+//            return false;
+//        }
+//        boolean found = false;
+//        for(int i = -1; i <= 1; i++){
+//            for(int j = -1; j <= 1; j++){
+//                if(!(j==0 && i==0)){
+//                    x=m.getRow()+i;
+//                    y=m.getCol()+j;
+//                    char current = newBoard.goToCell(x,y);
+//                    if(current == opponent){
+//                        while(true) {
+//                            x += i;
+//                            y += j;
+//                            current = newBoard.goToCell(x,y);
+//                            if(current == self){
+//                                found = true;
+//                                if(flip) flip(i,j,x,y,m,player);
+//                                break;
+//                            }else if(current != opponent) break;
+//                        }
+//                    }
+//                }
+//            }
+//        }
+//
+//        return current;
+//    }
 
     //east                  j++
     //west                  j--
@@ -157,6 +160,7 @@ public class DisplayBoard implements Moves{
     }
 
     private static int playerTurn(){
+//        b.findAvailableMoves(player);
         if(listOfMoves.isEmpty()){
             System.out.println("Player "+player+" has no available moves. Skipped Turn.");
             player = (player == 1)? 2:1;
@@ -169,7 +173,7 @@ public class DisplayBoard implements Moves{
 
         MoveCoord move = getMoves(player);
 
-        if(RayTest(move,b,player,true)){
+        if(b.RayTest(move,b,player,true)){
 //                b.updateBoard(player,move.getRow(),move.getCol());
 //                b.display();
 

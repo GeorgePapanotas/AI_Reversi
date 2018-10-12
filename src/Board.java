@@ -1,3 +1,5 @@
+import java.util.ArrayList;
+
 public class Board {
     private char a[][] = new char[8][8];
 
@@ -49,5 +51,75 @@ public class Board {
         this.a[xPos][yPos] = symbol;
     }
 
+    private void flip(int i, int j, int xPos, int yPos, Moves.MoveCoord moveCoord, int player){
+        while(xPos != moveCoord.getRow() || yPos != moveCoord.getCol()){
+            xPos = xPos - i;
+            yPos = yPos - j;
+            this.updateBoard(player,xPos,yPos);
+        }
+    }
+
+    public boolean RayTest(Moves.MoveCoord m,Board b,int player,boolean flip){
+        char opponent;
+        char self;
+        if(player == 1){
+            opponent = 'W';
+            self = 'B';
+        }else{
+            opponent = 'B';
+            self = 'W';
+        }
+
+        int x = m.getRow();
+        int y = m.getCol();
+        char token = b.goToCell(x,y);
+        if(token!='-'&&token!='O'){
+            return false;
+        }
+        boolean found = false;
+        for(int i = -1; i <= 1; i++){
+            for(int j = -1; j <= 1; j++){
+                if(!(j==0 && i==0)){
+                    x=m.getRow()+i;
+                    y=m.getCol()+j;
+                    char current = b.goToCell(x,y);
+                    if(current == opponent){
+                        while(true) {
+                            x += i;
+                            y += j;
+                            current = b.goToCell(x,y);
+                            if(current == self){
+                                found = true;
+                                if(flip) flip(i,j,x,y,m,player);
+                                break;
+                            }else if(current != opponent) break;
+                        }
+                    }
+                }
+            }
+        }
+        return found;
+    }
+
+    public ArrayList<Moves.MoveCoord> findAvailableMoves(int player){
+                ArrayList<Moves.MoveCoord> listOfMoves = new ArrayList<>();
+                for(int i=1;i<8;i++){
+                    for(int j=1;j<8;j++){
+                        char current = this.goToCell(i,j);
+                        if(!(current=='W'||current=='B')){
+                            if(this.RayTest(new Moves.MoveCoord(i,j),this,player,false)){
+                                listOfMoves.add(new Moves.MoveCoord(i,j));
+                            }else{
+                                if(current != '-') this.updateEmpty(i,j,'-');
+                            }
+                        }
+                    }
+                }
+                for(Moves.MoveCoord move : listOfMoves){
+                    System.out.print(move.toString());
+        }
+
+        return listOfMoves;
+    }
 
 }

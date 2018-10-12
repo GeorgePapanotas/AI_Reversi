@@ -26,6 +26,10 @@ public interface Moves {
         public boolean isEnd(){
             return this.col == 7 || this.col == 0 || this.row == 0 || this.row == 7;
         }
+
+        public String toString(){
+            return "[ "+this.getCol()+" , "+this.getRow()+" ]";
+        }
     }
 
     class GameState{
@@ -81,5 +85,7 @@ public interface Moves {
         public void setBeta(int beta) {
             this.beta = beta;
         }
+
+
     }
 }
