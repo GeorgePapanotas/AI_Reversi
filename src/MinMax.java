@@ -40,7 +40,6 @@ public class MinMax {
                 beta = Math.min(beta,value);
                 if(alpha >= beta) break;
             }
-            //TODO: Plug in eval
             root.getData().setScore(value);
             return new Moves.GameState();
         }
@@ -51,6 +50,7 @@ public class MinMax {
         for (Moves.MoveCoord move :
                 listOfMoves) {
             Moves.GameState gameState = new Moves.GameState(root.getData().getBoard(), move, 0);
+            //TODO: Implement executing method and uncomment
 //            gameState.getBoard().execute(move);
             node<Moves.GameState> child = new node<>(gameState);
             child.setDepth(root.getDepth() - 1);
