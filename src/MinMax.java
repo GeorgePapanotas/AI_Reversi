@@ -1,13 +1,18 @@
+import java.util.ArrayList;
+
 public class MinMax {
 
-    private int maxDepth;
+    private int maxDepth, alpha, beta;
 
     public MinMax(int maxDepth){
         this.maxDepth = maxDepth;
+        alpha = Integer.MIN_VALUE;
+        beta = Integer.MAX_VALUE;
     }
 
     public Moves.MoveCoord getBestMove(Board board ){
-        return new Moves.MoveCoord(1,1);
+        node<Moves.GameState> root = new node<Moves.GameState>(new Moves.GameState(board,null,0));
+        return alphaBeta(root,true).getMove();
     }
 
     private Moves.GameState alphaBeta(node<Moves.GameState> root, boolean maximizer){
@@ -20,8 +25,8 @@ public class MinMax {
             value = Integer.MIN_VALUE;
             for (node<Moves.GameState> child:root.getChildren()){
                 value = Math.max(value, alphaBeta(child,false).getScore());
-                root.getData().setAlpha(Math.max(root.getData().getAlpha(),value));
-                if(root.getData().getAlpha() >= root.getData().getBeta()) break;
+                alpha = Math.max(alpha,value);
+                if(alpha >= beta) break;
             }
             root.getData().setScore(value);
             return new Moves.GameState();
@@ -30,12 +35,16 @@ public class MinMax {
             for (node<Moves.GameState> child :
                     root.getChildren()) {
                 value = Math.min(value, alphaBeta(child, true).getScore());
-                root.getData().setBeta(Math.min(root.getData().getBeta(),value));
-                if(root.getData().getBeta() <= root.getData().getAlpha()) break;
+                beta = Math.min(beta,value);
+                if(alpha >= beta) break;
             }
             //TODO: Plug in eval
-            root.getData().setBeta(value);
+            root.getData().setScore(value);
             return new Moves.GameState();
         }
+    }
+
+    private void generateChildren(node<Moves.GameState> root, int depth){
+
     }
 }
