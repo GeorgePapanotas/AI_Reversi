@@ -4,6 +4,7 @@ public class node<V> {
 
     V data;
     ArrayList<node<V>> children;
+    int depth;
 
     public node(V data,ArrayList<node<V>> children){
         this.data= data;
@@ -30,4 +31,15 @@ public class node<V> {
     }
     public void addChild(node<V> child){children.add(child);}
 
+    public int getDepth() {
+        return depth;
+    }
+
+    public void setDepth(int depth) {
+        this.depth = depth;
+    }
+
+    public ArrayList<node<V>> getChildren() {
+        return children;
+    }
 }
