@@ -88,8 +88,8 @@ public class DisplayBoard implements Moves{
                     char current = b.goToCell(x,y);
                     if(current == opponent){
                         while(true) {
-                            x=x+i;
-                            y=y+j;
+                            x += i;
+                            y += j;
                             current = b.goToCell(x,y);
                             if(current == self){
                                 found = true;
