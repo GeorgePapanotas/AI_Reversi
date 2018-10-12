@@ -117,6 +117,15 @@ public class Board {
                 }
         return listOfMoves;
     }
+    public void clearAvailableMarker () {
+        char current;
+        for(int i=0;i<8;i++){
+            for(int j=0;j<8;j++){
+                 current = this.goToCell(i,j);
+                if(current == 'O'){
+                    current = '-';
+                }
+            }
 
     public void displayAvailableMoves(ArrayList<Moves.MoveCoord> listOfMoves){
         for(Moves.MoveCoord move : listOfMoves){
@@ -126,4 +135,6 @@ public class Board {
 
 
 
+            }
+    }
 }
