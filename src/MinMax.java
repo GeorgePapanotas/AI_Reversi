@@ -2,16 +2,18 @@ import java.util.ArrayList;
 
 public class MinMax {
 
-    private int maxDepth, alpha, beta;
+    private int maxDepth, alpha, beta, player;
 
-    public MinMax(int maxDepth){
+    public MinMax(int maxDepth, int player){
         this.maxDepth = maxDepth;
+        this.player = player;
         alpha = Integer.MIN_VALUE;
         beta = Integer.MAX_VALUE;
     }
 
     public Moves.MoveCoord getBestMove(Board board ){
         node<Moves.GameState> root = new node<Moves.GameState>(new Moves.GameState(board,null,0));
+        generateChildren(root);
         return alphaBeta(root,true).getMove();
     }
 
@@ -38,13 +40,22 @@ public class MinMax {
                 beta = Math.min(beta,value);
                 if(alpha >= beta) break;
             }
-            //TODO: Plug in eval
             root.getData().setScore(value);
             return new Moves.GameState();
         }
     }
 
-    private void generateChildren(node<Moves.GameState> root, int depth){
-
+    private void generateChildren(node<Moves.GameState> root){
+        ArrayList<Moves.MoveCoord> listOfMoves = root.getData().getBoard().findAvailableMoves(player);
+        for (Moves.MoveCoord move :
+                listOfMoves) {
+            Moves.GameState gameState = new Moves.GameState(root.getData().getBoard(), move, 0);
+            //TODO: Implement executing method and uncomment
+//            gameState.getBoard().execute(move);
+            node<Moves.GameState> child = new node<>(gameState);
+            child.setDepth(root.getDepth() - 1);
+            if(root.getDepth() >= maxDepth) generateChildren(child);
+            root.addChild(child);
+        }
     }
 }

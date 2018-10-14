@@ -2,7 +2,9 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 //test game D3 E3 F4 G3 F3 C5 H3 F2 C4 C3 E2 E1 B3 H4 H5 A3
-
+//test game E6F4C3C4D3D6C5C6D7B5B6F7A6A5B4A7F3C8E8C7F6E7G8G6F8F5G4E3D2H3G5G3H4H5H7D8B8A4B3D1C1B1C2E1E2A3B7F2F1G1B2A2G2H6H2G7
+//test game F5D6C5F6C4F4E6D7E7C6F7D8C8E8G5B8E3F8B6B5A6A4A5A7C7B4G6H6H7B3D3C3C2C1H5D2E2F1B1D1B2A3E1H4H3G4G3F3G1F2B7H2H1G7
+//www.ffothello.org/livres/othello-book-Brian-Rose.pdf
 public class DisplayBoard implements Moves{
 
     static int scoreW,scoreB;
@@ -10,6 +12,8 @@ public class DisplayBoard implements Moves{
     private static final int ALLTILES = 64;
     private static ArrayList<MoveCoord> listOfMoves;
     private static int player,user;
+    private static String transcript = "E6F4C3C4D3D6C5C6D7B5B6F7A6A5B4A7F3C8E8C7F6E7G8G6F8F5G4E3D2H3G5G3H4H5H7D8B8A4B3D1C1B1C2E1E2A3B7F2F1G1B2A2G2H6H2G7 ";
+    private static int letter = 0,number=2;
     public static void main(String [] args){
         b = new Board();
         ScoreCounter(b);
@@ -19,6 +23,10 @@ public class DisplayBoard implements Moves{
         int k;
 
         player = s.nextInt();
+        while(player!=1 && player!=2){
+            System.out.print("Please select 1 or 2 as turns: r");
+            player = s.nextInt();
+        }
         user = player;
 
         listOfMoves = displayAvailableMoves(player);
@@ -62,8 +70,19 @@ public class DisplayBoard implements Moves{
         return new Moves.MoveCoord(row,col);
     }
 
+    private static Moves.MoveCoord getTranscript(){
+        String s = transcript.substring(letter,number);
+        letter+=2;
+        number+=2;
+        System.out.println("Transcript move for player "+player+" : "+s);
+        int row, col;
 
+        col = (int) (Character.toUpperCase(s.charAt(0)) - 'A');
+        row = Integer.parseInt(String.valueOf(s.charAt(1))) - 1;
 
+        return new Moves.MoveCoord(row,col);
+
+    }
 
 
     private static ArrayList<MoveCoord> displayAvailableMoves(int player){
@@ -171,8 +190,8 @@ public class DisplayBoard implements Moves{
             }
         }
 
-        MoveCoord move = getMoves(player);
-
+       // MoveCoord move = getMoves(player);
+        MoveCoord move = getTranscript();
         if(b.RayTest(move,b,player,true)){
 //                b.updateBoard(player,move.getRow(),move.getCol());
 //                b.display();
