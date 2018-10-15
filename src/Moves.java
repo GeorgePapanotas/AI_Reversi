@@ -32,7 +32,7 @@ public interface Moves {
         }
     }
 
-    class GameState{
+    class GameState implements Comparable<GameState>{
         private Board board;
         private MoveCoord move;
         private int score, alpha, beta;
@@ -87,5 +87,9 @@ public interface Moves {
         }
 
 
+        @Override
+        public int compareTo(GameState o) {
+            return Integer.compare(this.getScore(), o.getScore());
+        }
     }
 }

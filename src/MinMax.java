@@ -1,76 +1,93 @@
 import java.util.ArrayList;
+import java.util.Collections;
 
 public class MinMax {
 
-    private int maxDepth, alpha, beta, player;
+    private int maxDepth, player;
 
     public MinMax(int maxDepth, int player){
         this.maxDepth = maxDepth;
         this.player = player;
-        alpha = Integer.MIN_VALUE;
-        beta = Integer.MAX_VALUE;
+//        alpha = Integer.MIN_VALUE;
+//        beta = Integer.MAX_VALUE;
     }
 
     public void takeTurn(Board board){
         board.clearAvailableMarker();
-        board.execute(getBestMove(board),player);
+        Board newBoard = new Board(board);
+        Moves.MoveCoord bestMove = getBestMove(newBoard);
+        board.execute(bestMove,player);
     }
 
     public Moves.MoveCoord getBestMove(Board board){
         node<Moves.GameState> root = new node<Moves.GameState>(new Moves.GameState(board,null,0));
         generateChildren(root,player);
-        return alphaBeta(root,true).getMove();
+        int  l = alphaBeta(root, Integer.MIN_VALUE, Integer.MAX_VALUE, true);
+        for(node<Moves.GameState> node : root.getChildren()){
+            if(l == node.getData().getScore()){
+                return node.getData().getMove();
+            }
+        }
+        return null;
     }
 
-    private Moves.GameState alphaBeta(node<Moves.GameState> root, boolean maximizer){
+    private int alphaBeta(node<Moves.GameState> root, int alpha, int beta, boolean maximizer){
         int value;
+        int cAlpha = alpha;
+        int cBeta = beta;
         Moves.GameState retState = null;
         if(root.getDepth()==maxDepth || root.isLeaf()){
             //TODO: Plug in eval
             retState = root.getData();
             retState.setScore(-100 + (int)(Math.random()*200));
-            return retState;
+            return retState.getScore();
         }
         if(maximizer){
             value = Integer.MIN_VALUE;
 
             for (node<Moves.GameState> child:root.getChildren()){
-                value = Math.max(value, alphaBeta(child,false).getScore());
-                alpha = Math.max(alpha,value);
-                if(alpha >= beta){
+                value = Math.max(value, alphaBeta(child,cAlpha,cBeta,false));
+                cAlpha = Math.max(cAlpha,value);
+                if(cAlpha >= cBeta){
                     retState = child.getData();
                     break;
                 }
             }
 //            retState.setMove();
 //            return root.getData();
-            if(retState != null) return retState;
-            else return root.getChildren().sort();
+            if(retState != null) return retState.getScore();
+            else{
+                Collections.sort(root.getChildren());
+                return root.getChildren().get(0).getData().getScore();
+            }
         }else{
             value = Integer.MAX_VALUE;
             for (node<Moves.GameState> child :
                     root.getChildren()) {
-                value = Math.min(value, alphaBeta(child, true).getScore());
-                beta = Math.min(beta,value);
-                if(alpha >= beta){
+                value = Math.min(value, alphaBeta(child, cAlpha, cBeta, true));
+                cBeta = Math.min(cBeta,value);
+                if(cAlpha >= cBeta){
                     retState = child.getData();
                     break;
                 }
             }
             root.getData().setScore(value);
 //            return root.getData();
-            return retState;
+            if(retState != null) return retState.getScore();
+            else{
+                Collections.sort(root.getChildren());
+                return root.getChildren().get(root.getChildren().size()-1).getData().getScore();
+            }
         }
     }
 
     private void generateChildren(node<Moves.GameState> root,int currentPlayer){
-
         ArrayList<Moves.MoveCoord> listOfMoves = root.getData().getBoard().findAvailableMoves(currentPlayer);
         for (Moves.MoveCoord move :
                 listOfMoves) {
-            Moves.GameState gameState = new Moves.GameState(root.getData().getBoard(), move, 0);
-            //TODO: Implement executing method and uncomment
-            gameState.getBoard().execute(move,player);
+            Board boardCopy = new Board(root.getData().getBoard());
+            Moves.GameState gameState = new Moves.GameState(boardCopy, move, 0);
+            gameState.getBoard().execute(move,currentPlayer);
             node<Moves.GameState> child = new node<>(gameState);
             child.setDepth(root.getDepth() + 1);
             if(root.getDepth() <= maxDepth) generateChildren(child,currentPlayer % 2 + 1);

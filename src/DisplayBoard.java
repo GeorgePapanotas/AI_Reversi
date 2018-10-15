@@ -163,6 +163,9 @@ public class DisplayBoard implements Moves{
     private static int CPUturn(){
         //TODO: Implement AI
         minMax.takeTurn(b);
+        ScoreCounter(b);
+        System.out.println("White: "+scoreW+"   Black: "+scoreB);
+        player = (player == 1)? 2:1;
         return 0;
     }
 

@@ -15,8 +15,14 @@ public class Board {
         a[4][4] = 'W';
         a[3][4] = 'B';
         a[4][3] = 'B';
+    }
 
+    public Board(char[][] table){
+        this.a = table;
+    }
 
+    public Board(Board board){
+        this.a = board.a;
     }
 
     public void display(){
@@ -177,5 +183,4 @@ public class Board {
             }
         }
     }
-
 }

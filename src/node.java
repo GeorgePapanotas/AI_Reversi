@@ -1,10 +1,12 @@
 import java.util.ArrayList;
+import java.util.Comparator;
 
-public class node<V> {
+public class node<V extends Comparable<V>> implements Comparable<node<V>> {
 
     private V data;
     private ArrayList<node<V>> children;
     private int depth;
+    private node<V> parent;
 
     public node(V data,ArrayList<node<V>> children){
         this.data= data;
@@ -42,4 +44,19 @@ public class node<V> {
     public ArrayList<node<V>> getChildren() {
         return children;
     }
+
+    public void setParent(node<V> parent){
+        for(node<V> c : getChildren()){
+            c.parent = parent;
+        }
+    }
+
+    public node<V> getParent(){return this.parent;}
+
+    @Override
+    public int compareTo(node<V> o) {
+        return (this.getData().compareTo(o.getData()));
+    }
+
+
 }
