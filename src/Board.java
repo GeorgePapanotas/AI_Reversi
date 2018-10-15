@@ -22,7 +22,7 @@ public class Board {
     }
 
     public Board(Board board){
-        this.a = board.getTable();
+        this(board.getTable());
     }
 
     public char[][] getTable(){
@@ -112,8 +112,8 @@ public class Board {
 
     public ArrayList<Moves.MoveCoord> findAvailableMoves(int player){
                 ArrayList<Moves.MoveCoord> listOfMoves = new ArrayList<>();
-                for(int i=1;i<8;i++){
-                    for(int j=1;j<8;j++){
+                for(int i=0;i<8;i++){
+                    for(int j=0;j<8;j++){
                         char current = this.goToCell(i,j);
                         if(!(current=='W'||current=='B')){
                             if(this.RayTest(new Moves.MoveCoord(i,j),this,player,false)){

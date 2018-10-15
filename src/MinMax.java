@@ -82,18 +82,20 @@ public class MinMax {
     }
 
     private void generateChildren(node<Moves.GameState> root,int currentPlayer){
+        Board parentBoard = new Board(root.getData().getBoard());
         ArrayList<Moves.MoveCoord> listOfMoves = root.getData().getBoard().findAvailableMoves(currentPlayer);
-        Board cpy = new Board(root.getData().getBoard());
-        for (Moves.MoveCoord move :
-                listOfMoves) {
-            Board boardCopy = new Board(cpy);
-            Moves.GameState gameState = new Moves.GameState(boardCopy, move, 0);
-            gameState.getBoard().execute(move,currentPlayer);
-            gameState.getBoard().display();
+        for (Moves.MoveCoord move : listOfMoves) {
+            /*Board copy and execution of move*/
+            Board childBoard = new Board(parentBoard);
+            childBoard.execute(move,currentPlayer);
+            childBoard.display();
             System.out.println(root.getDepth());
+            /*Creation of child node and recursion*/
+            Moves.GameState gameState = new Moves.GameState(childBoard, move, 0);
             node<Moves.GameState> child = new node<>(gameState);
             child.setDepth(root.getDepth() + 1);
-            if(root.getDepth() <= maxDepth) generateChildren(child,currentPlayer % 2 + 1);
+            /*If max depth is reached, leave children as leaves*/
+            if(root.getDepth() < maxDepth) generateChildren(child,currentPlayer % 2 + 1);
             root.addChild(child);
         }
     }
