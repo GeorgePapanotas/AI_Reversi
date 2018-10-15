@@ -2,9 +2,9 @@ import java.util.ArrayList;
 
 public class node<V> {
 
-    V data;
-    ArrayList<node<V>> children;
-    int depth;
+    private V data;
+    private ArrayList<node<V>> children;
+    private int depth;
 
     public node(V data,ArrayList<node<V>> children){
         this.data= data;

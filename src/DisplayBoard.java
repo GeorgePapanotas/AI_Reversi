@@ -1,7 +1,7 @@
 import java.util.ArrayList;
 import java.util.Scanner;
 
-//test game D3 E3 F4 G3 F3 C5 H3 F2 C4 C3 E2 E1 B3 H4 H5 A3
+//test game D3E3F4G3F3C5H3F2C4C3E2E1B3H4H5A3
 //test game E6F4C3C4D3D6C5C6D7B5B6F7A6A5B4A7F3C8E8C7F6E7G8G6F8F5G4E3D2H3G5G3H4H5H7D8B8A4B3D1C1B1C2E1E2A3B7F2F1G1B2A2G2H6H2G7
 //test game F5D6C5F6C4F4E6D7E7C6F7D8C8E8G5B8E3F8B6B5A6A4A5A7C7B4G6H6H7B3D3C3C2C1H5D2E2F1B1D1B2A3E1H4H3G4G3F3G1F2B7H2H1G7
 //www.ffothello.org/livres/othello-book-Brian-Rose.pdf
@@ -12,8 +12,9 @@ public class DisplayBoard implements Moves{
     private static final int ALLTILES = 64;
     private static ArrayList<MoveCoord> listOfMoves;
     private static int player,user;
-    private static String transcript = "E6F4C3C4D3D6C5C6D7B5B6F7A6A5B4A7F3C8E8C7F6E7G8G6F8F5G4E3D2H3G5G3H4H5H7D8B8A4B3D1C1B1C2E1E2A3B7F2F1G1B2A2G2H6H2G7 ";
+    private static String transcript = "D3E3F4G3F3C5H3F2C4C3E2E1B3H4H5A3 ";
     private static int letter = 0,number=2;
+    private static MinMax minMax;
     public static void main(String [] args){
         b = new Board();
         ScoreCounter(b);
@@ -24,12 +25,15 @@ public class DisplayBoard implements Moves{
 
         player = s.nextInt();
         while(player!=1 && player!=2){
-            System.out.print("Please select 1 or 2 as turns: r");
+            System.out.print("Please select 1 or 2 as turns: ");
             player = s.nextInt();
         }
         user = player;
 
-        listOfMoves = displayAvailableMoves(player);
+        minMax = new MinMax(5,player%2+1);
+
+
+
         while(scoreB + scoreW <= ALLTILES){
             if(player == user){
                 k = playerTurn();
@@ -57,6 +61,7 @@ public class DisplayBoard implements Moves{
     private static Moves.MoveCoord getMoves(int player){
         Scanner s = new Scanner(System.in);
         System.out.println("Player "+player+" make your move ( "+(player == 1?"B ).":"W )."));
+        b.clearAvailableMarker();
         int row, col;
         String in = s.next();
 
@@ -105,63 +110,6 @@ public class DisplayBoard implements Moves{
         return listOfMoves;
     }
 
-    //public input board + move  return board
-
-
-
-//    public static Board executeMove(int player, Board c,MoveCoord m){
-//        Board newBoard = c;
-//        char opponent;
-//        char self;
-//
-//        if(player == 1){
-//            opponent = 'W';
-//            self = 'B';
-//        }else{
-//            opponent = 'B';
-//            self = 'W';
-//        }
-//
-//        int x = m.getRow();
-//        int y = m.getCol();
-//        char token = newBoard.goToCell(x,y);
-//        if(token!='-'&&token!='O'){
-//            return false;
-//        }
-//        boolean found = false;
-//        for(int i = -1; i <= 1; i++){
-//            for(int j = -1; j <= 1; j++){
-//                if(!(j==0 && i==0)){
-//                    x=m.getRow()+i;
-//                    y=m.getCol()+j;
-//                    char current = newBoard.goToCell(x,y);
-//                    if(current == opponent){
-//                        while(true) {
-//                            x += i;
-//                            y += j;
-//                            current = newBoard.goToCell(x,y);
-//                            if(current == self){
-//                                found = true;
-//                                if(flip) flip(i,j,x,y,m,player);
-//                                break;
-//                            }else if(current != opponent) break;
-//                        }
-//                    }
-//                }
-//            }
-//        }
-//
-//        return current;
-//    }
-
-    //east                  j++
-    //west                  j--
-    //north                 i--
-    //south                 i++
-    //south east            i++ j++
-    //south west            i++ j--
-    //north east            i-- j++
-    //north west            i-- j--
 
     private static void ScoreCounter(Board b){
         scoreW =0;
@@ -180,18 +128,22 @@ public class DisplayBoard implements Moves{
 
     private static int playerTurn(){
 //        b.findAvailableMoves(player);
+        listOfMoves = b.findAvailableMoves(user);
+
+        b.displayAvailableMoves(listOfMoves);
         if(listOfMoves.isEmpty()){
             System.out.println("Player "+player+" has no available moves. Skipped Turn.");
             player = (player == 1)? 2:1;
-            listOfMoves = displayAvailableMoves(player);
+            listOfMoves = b.findAvailableMoves(player);
+            b.displayAvailableMoves(listOfMoves);
             if(listOfMoves.isEmpty()){
                 System.out.println("Player "+player+" has no available moves. Game concluded.");
                 return -1;
             }
         }
 
-       // MoveCoord move = getMoves(player);
-        MoveCoord move = getTranscript();
+        MoveCoord move = getMoves(player);
+        //MoveCoord move = getTranscript();
         if(b.RayTest(move,b,player,true)){
 //                b.updateBoard(player,move.getRow(),move.getCol());
 //                b.display();
@@ -200,7 +152,8 @@ public class DisplayBoard implements Moves{
         }else{
             System.out.println("Select valid");
         }
-        listOfMoves = displayAvailableMoves(player);
+        listOfMoves = b.findAvailableMoves(player);
+        b.displayAvailableMoves(listOfMoves);
         ScoreCounter(b);
         System.out.println("White: "+scoreW+"   Black: "+scoreB);
 
@@ -209,7 +162,8 @@ public class DisplayBoard implements Moves{
 
     private static int CPUturn(){
         //TODO: Implement AI
-        return playerTurn();
+        minMax.takeTurn(b);
+        return 0;
     }
 
 }

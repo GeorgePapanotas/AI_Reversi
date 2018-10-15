@@ -108,6 +108,7 @@ public class Board {
                         char current = this.goToCell(i,j);
                         if(!(current=='W'||current=='B')){
                             if(this.RayTest(new Moves.MoveCoord(i,j),this,player,false)){
+//                                if(current != 'O') this.updateEmpty(i,j,'O');
                                 listOfMoves.add(new Moves.MoveCoord(i,j));
                             }else{
                                 if(current != '-') this.updateEmpty(i,j,'-');
@@ -115,26 +116,66 @@ public class Board {
                         }
                     }
                 }
+//                this.display();
         return listOfMoves;
     }
     public void clearAvailableMarker () {
         char current;
-        for(int i=0;i<8;i++){
-            for(int j=0;j<8;j++){
-                 current = this.goToCell(i,j);
-                if(current == 'O'){
-                    current = '-';
+        for (int i = 0; i < 8; i++) {
+            for (int j = 0; j < 8; j++) {
+                current = this.goToCell(i, j);
+                if (current == 'O') {
+                    this.updateEmpty(i,j,'-');
                 }
             }
-
-    public void displayAvailableMoves(ArrayList<Moves.MoveCoord> listOfMoves){
-        for(Moves.MoveCoord move : listOfMoves){
-            this.updateEmpty(move.getCol(),move.getRow(),'O');
         }
     }
 
-
-
-            }
+    public void displayAvailableMoves(ArrayList<Moves.MoveCoord> listOfMoves){
+        for(Moves.MoveCoord move : listOfMoves){
+            this.updateEmpty(move.getRow(),move.getCol(),'O');
+        }
+        this.display();
     }
+
+    public void execute(Moves.MoveCoord m,int player){
+        char opponent;
+        char self;
+
+        if(player == 1){
+            opponent = 'W';
+            self = 'B';
+        }else{
+            opponent = 'B';
+            self = 'W';
+        }
+
+        int x = m.getRow();
+        int y = m.getCol();
+        char token = this.goToCell(x,y);
+        if(token!='-'&&token!='O'){
+            return;
+        }
+        for(int i = -1; i <= 1; i++){
+            for(int j = -1; j <= 1; j++){
+                if(!(j==0 && i==0)){
+                    x=m.getRow()+i;
+                    y=m.getCol()+j;
+                    char current = this.goToCell(x,y);
+                    if(current == opponent){
+                        while(true) {
+                            x += i;
+                            y += j;
+                            current = this.goToCell(x,y);
+                            if(current == self){
+                                flip(i,j,x,y,m,player);
+                                break;
+                            }else if(current != opponent) break;
+                        }
+                    }
+                }
+            }
+        }
+    }
+
 }

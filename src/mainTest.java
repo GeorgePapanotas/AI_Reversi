@@ -30,7 +30,7 @@ public class mainTest {
             System.out.println(root.getData().getScore());
             return;
         }else{
-            for(node<testData> child: root.children){
+            for(node<testData> child: root.getChildren()){
                 traverse(child);
             }
             System.out.println("-");
