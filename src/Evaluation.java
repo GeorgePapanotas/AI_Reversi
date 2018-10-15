@@ -7,7 +7,7 @@ public class Evaluation {
           CornersCaptured
           Stability
      */
-    private static int[][] board_value =
+    private int[][] board_value =
             {
                     {100, -1, 5, 2, 2, 5, -1, 100},
                     {-1, -20,1, 1, 1, 1,-20, -1},

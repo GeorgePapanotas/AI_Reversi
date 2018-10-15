@@ -14,7 +14,12 @@ public class MinMax {
 
     public void takeTurn(Board board){
         board.clearAvailableMarker();
-        Board newBoard = new Board(board);
+        Board newBoard = null;
+        try {
+            newBoard = board.clone();
+        } catch (CloneNotSupportedException e) {
+            e.printStackTrace();
+        }
         Moves.MoveCoord bestMove = getBestMove(newBoard);
         board.execute(bestMove,player);
     }
@@ -82,11 +87,21 @@ public class MinMax {
     }
 
     private void generateChildren(node<Moves.GameState> root,int currentPlayer){
-        Board parentBoard = new Board(root.getData().getBoard());
+        Board parentBoard = null;
+        try {
+            parentBoard = root.getData().getBoard().clone();
+        } catch (CloneNotSupportedException e) {
+            e.printStackTrace();
+        }
         ArrayList<Moves.MoveCoord> listOfMoves = root.getData().getBoard().findAvailableMoves(currentPlayer);
         for (Moves.MoveCoord move : listOfMoves) {
             /*Board copy and execution of move*/
-            Board childBoard = new Board(parentBoard);
+            Board childBoard = null;
+            try {
+                childBoard = parentBoard.clone();
+            } catch (CloneNotSupportedException e) {
+                e.printStackTrace();
+            }
             childBoard.execute(move,currentPlayer);
             childBoard.display();
             System.out.println(root.getDepth());

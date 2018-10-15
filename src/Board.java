@@ -1,6 +1,6 @@
 import java.util.ArrayList;
 
-public class Board {
+public class Board extends Object implements Cloneable{
     private char a[][] = new char[8][8];
 
     public Board(){
@@ -23,6 +23,13 @@ public class Board {
 
     public Board(Board board){
         this(board.getTable());
+    }
+
+    @Override
+    public Board clone() throws CloneNotSupportedException{
+        Board clonedBoard = (Board) super.clone();
+        clonedBoard.a = this.a.clone();
+        return clonedBoard;
     }
 
     public char[][] getTable(){
