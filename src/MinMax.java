@@ -83,11 +83,14 @@ public class MinMax {
 
     private void generateChildren(node<Moves.GameState> root,int currentPlayer){
         ArrayList<Moves.MoveCoord> listOfMoves = root.getData().getBoard().findAvailableMoves(currentPlayer);
+        Board cpy = new Board(root.getData().getBoard());
         for (Moves.MoveCoord move :
                 listOfMoves) {
-            Board boardCopy = new Board(root.getData().getBoard());
+            Board boardCopy = new Board(cpy);
             Moves.GameState gameState = new Moves.GameState(boardCopy, move, 0);
             gameState.getBoard().execute(move,currentPlayer);
+            gameState.getBoard().display();
+            System.out.println(root.getDepth());
             node<Moves.GameState> child = new node<>(gameState);
             child.setDepth(root.getDepth() + 1);
             if(root.getDepth() <= maxDepth) generateChildren(child,currentPlayer % 2 + 1);

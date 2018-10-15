@@ -7,15 +7,20 @@ import java.util.Scanner;
 //www.ffothello.org/livres/othello-book-Brian-Rose.pdf
 public class DisplayBoard implements Moves{
 
-    static int scoreW,scoreB;
-    private static Board b;
-    private static final int ALLTILES = 64;
-    private static ArrayList<MoveCoord> listOfMoves;
-    private static int player,user;
-    private static String transcript = "D3E3F4G3F3C5H3F2C4C3E2E1B3H4H5A3 ";
-    private static int letter = 0,number=2;
-    private static MinMax minMax;
-    public static void main(String [] args){
+    private int scoreW,scoreB;
+    private Board b;
+    private final int ALLTILES = 64;
+    private ArrayList<MoveCoord> listOfMoves;
+    private int player,user;
+    private String transcript = "D3E3F4G3F3C5H3F2C4C3E2E1B3H4H5A3 ";
+    private int letter = 0,number=2;
+    private MinMax minMax;
+
+    public DisplayBoard() {
+
+    }
+
+    public void play(){
         b = new Board();
         ScoreCounter(b);
         Scanner s = new Scanner(System.in);
@@ -58,7 +63,7 @@ public class DisplayBoard implements Moves{
         }
     }
 
-    private static Moves.MoveCoord getMoves(int player){
+    private Moves.MoveCoord getMoves(int player){
         Scanner s = new Scanner(System.in);
         System.out.println("Player "+player+" make your move ( "+(player == 1?"B ).":"W )."));
         b.clearAvailableMarker();
@@ -75,7 +80,7 @@ public class DisplayBoard implements Moves{
         return new Moves.MoveCoord(row,col);
     }
 
-    private static Moves.MoveCoord getTranscript(){
+    private Moves.MoveCoord getTranscript(){
         String s = transcript.substring(letter,number);
         letter+=2;
         number+=2;
@@ -90,7 +95,7 @@ public class DisplayBoard implements Moves{
     }
 
 
-    private static ArrayList<MoveCoord> displayAvailableMoves(int player){
+    private ArrayList<MoveCoord> displayAvailableMoves(int player){
 //        char playerToken = (player==1)? 'W':'B';
         ArrayList<MoveCoord> listOfMoves = new ArrayList<>();
         for(int i=1;i<8;i++){
@@ -111,7 +116,7 @@ public class DisplayBoard implements Moves{
     }
 
 
-    private static void ScoreCounter(Board b){
+    private void ScoreCounter(Board b){
         scoreW =0;
         scoreB = 0;
         for(int i = 0;i<=7;i++){
@@ -126,7 +131,7 @@ public class DisplayBoard implements Moves{
         }
     }
 
-    private static int playerTurn(){
+    private int playerTurn(){
 //        b.findAvailableMoves(player);
         listOfMoves = b.findAvailableMoves(user);
 
@@ -160,7 +165,7 @@ public class DisplayBoard implements Moves{
         return 0;
     }
 
-    private static int CPUturn(){
+    private int CPUturn(){
         //TODO: Implement AI
         minMax.takeTurn(b);
         ScoreCounter(b);

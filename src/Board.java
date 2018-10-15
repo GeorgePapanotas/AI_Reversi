@@ -22,9 +22,12 @@ public class Board {
     }
 
     public Board(Board board){
-        this.a = board.a;
+        this.a = board.getTable();
     }
 
+    public char[][] getTable(){
+        return this.a;
+    }
     public void display(){
         System.out.println("  A B C D E F G H");
         for(int i = 0; i < 8; i++){
