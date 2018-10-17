@@ -15,11 +15,7 @@ public class MinMax {
     public void takeTurn(Board board){
         board.clearAvailableMarker();
         Board newBoard = null;
-        try {
-            newBoard = board.clone();
-        } catch (CloneNotSupportedException e) {
-            e.printStackTrace();
-        }
+        newBoard = new Board(board);
         Moves.MoveCoord bestMove = getBestMove(newBoard);
         board.execute(bestMove,player);
     }
@@ -88,23 +84,15 @@ public class MinMax {
 
     private void generateChildren(node<Moves.GameState> root,int currentPlayer){
         Board parentBoard = null;
-        try {
-            parentBoard = root.getData().getBoard().clone();
-        } catch (CloneNotSupportedException e) {
-            e.printStackTrace();
-        }
+        parentBoard = new Board(root.getData().getBoard());
         ArrayList<Moves.MoveCoord> listOfMoves = root.getData().getBoard().findAvailableMoves(currentPlayer);
         for (Moves.MoveCoord move : listOfMoves) {
             /*Board copy and execution of move*/
             Board childBoard = null;
-            try {
-                childBoard = parentBoard.clone();
-            } catch (CloneNotSupportedException e) {
-                e.printStackTrace();
-            }
+            childBoard = new Board(parentBoard);
             childBoard.execute(move,currentPlayer);
-            childBoard.display();
-            System.out.println(root.getDepth());
+//            childBoard.display();
+//            System.out.println(root.getDepth());
             /*Creation of child node and recursion*/
             Moves.GameState gameState = new Moves.GameState(childBoard, move, 0);
             node<Moves.GameState> child = new node<>(gameState);

@@ -18,7 +18,11 @@ public class Board extends Object implements Cloneable{
     }
 
     public Board(char[][] table){
-        this.a = table;
+        for(int i = 0; i < table.length; i++){
+            for (int j = 0; j < table.length; j++) {
+                a[i][j] = table[i][j];
+            }
+        }
     }
 
     public Board(Board board){
