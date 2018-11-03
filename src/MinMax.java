@@ -1,30 +1,32 @@
 import java.util.ArrayList;
 import java.util.Collections;
 
-public class MinMax {
+class MinMax {
 
     private int maxDepth, player;
 
-    public MinMax(int maxDepth, int player){
+    MinMax(int maxDepth, int player){
         this.maxDepth = maxDepth;
         this.player = player;
 //        alpha = Integer.MIN_VALUE;
 //        beta = Integer.MAX_VALUE;
     }
 
-    public void takeTurn(Board board){
+    void takeTurn(Board board){
         board.clearAvailableMarker();
         Board newBoard = null;
         newBoard = new Board(board);
         Moves.MoveCoord bestMove = getBestMove(newBoard);
         board.execute(bestMove,player);
+        System.out.println("CPU Played: "+(char)('A'+bestMove.getCol()) + "" + (bestMove.getRow()+1));
     }
 
-    public Moves.MoveCoord getBestMove(Board board){
+    private Moves.MoveCoord getBestMove(Board board){
         node<Moves.GameState> root = new node<Moves.GameState>(new Moves.GameState(board,null,0));
         generateChildren(root,player);
         int  l = alphaBeta(root, Integer.MIN_VALUE, Integer.MAX_VALUE, true);
         for(node<Moves.GameState> node : root.getChildren()){
+            System.out.println("\nMove Score: "+node.getData().getScore());
             if(l == node.getData().getScore()){
                 return node.getData().getMove();
             }
@@ -39,15 +41,16 @@ public class MinMax {
         Moves.GameState retState = null;
         if(root.getDepth()==maxDepth || root.isLeaf()){
             //TODO: Plug in eval
+            Evaluation eval = new Evaluation();
             retState = root.getData();
-            retState.setScore(-100 + (int)(Math.random()*200));
+            retState.setScore(eval.evaluate(root.getData().getBoard(),player));
             return retState.getScore();
         }
         if(maximizer){
             value = Integer.MIN_VALUE;
 
             for (node<Moves.GameState> child:root.getChildren()){
-                value = Math.max(value, alphaBeta(child,cAlpha,cBeta,false));
+                value = Math.max(value, alphaBeta(child,cAlpha,cBeta,fal se));
                 cAlpha = Math.max(cAlpha,value);
                 if(cAlpha >= cBeta){
                     retState = child.getData();
@@ -58,7 +61,8 @@ public class MinMax {
 //            return root.getData();
             if(retState != null) return retState.getScore();
             else{
-                Collections.sort(root.getChildren());
+                Collections.sort(root.getChildren(),Collections.reverseOrder());
+                //System.out.println(root.getChildren());
                 return root.getChildren().get(0).getData().getScore();
             }
         }else{
@@ -77,7 +81,7 @@ public class MinMax {
             if(retState != null) return retState.getScore();
             else{
                 Collections.sort(root.getChildren());
-                return root.getChildren().get(root.getChildren().size()-1).getData().getScore();
+                return root.getChildren().get(0).getData().getScore();
             }
         }
     }

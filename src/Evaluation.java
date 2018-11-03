@@ -1,4 +1,8 @@
 public class Evaluation {
+
+    public Evaluation(){
+
+    }
     /*
         Available Evaluators:
 
@@ -18,6 +22,35 @@ public class Evaluation {
                     {-1,-20, 1, 1, 1, 1,-20, -1},
                     {100, -1, 5, 2, 2, 5, -1, 100}
             };
+
+
+    public int evaluate(Board b,int player){
+        int score = 0;
+
+
+        for(int i = 0;i<8;i++){
+            for (int j = 0; j < 8; j++) {
+                if(b.goToCell(i,j) == 'B'){
+                    score += board_value[i][j];
+                }else if(b.goToCell(i,j) == 'W'){
+                    score -= board_value[i][j];
+                }
+            }
+        }
+        if(player == 1){
+            return score;
+        }else{
+            return score * (-1);
+        }
+    }
+
+    public int Mobility(){
+        int mobilityScore;
+
+        return mobilityScore;
+    }
+
+
 
     public int coinParity(int maxPlayerTiles,int minPlayerTiles){
         return 100*(maxPlayerTiles - minPlayerTiles) / (maxPlayerTiles + minPlayerTiles);

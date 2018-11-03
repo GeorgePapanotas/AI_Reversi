@@ -58,5 +58,4 @@ public class node<V extends Comparable<V>> implements Comparable<node<V>> {
         return (this.getData().compareTo(o.getData()));
     }
 
-
 }

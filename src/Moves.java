@@ -91,5 +91,9 @@ public interface Moves {
         public int compareTo(GameState o) {
             return Integer.compare(this.getScore(), o.getScore());
         }
+
+        public String toString(){
+            return Integer.toString(this.getScore());
+        }
     }
 }

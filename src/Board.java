@@ -40,11 +40,16 @@ public class Board extends Object implements Cloneable{
         return this.a;
     }
     public void display(){
+        char temp;
         System.out.println("  A B C D E F G H");
         for(int i = 0; i < 8; i++){
             System.out.print(i + 1+" ");
             for(int j = 0; j<8;j++){
-                System.out.print(this.a[i][j]+" ");
+                temp = goToCell(i,j);
+                if(temp == 'B') System.out.print("\033[31m" + temp +"\033[0m ");
+                else if(temp == 'W') System.out.print("\033[32m" + temp + "\033[0m ");
+                else if(temp == 'O') System.out.print("\033[30m" + temp + "\033[0m ");
+                else System.out.print(temp + " ");
             }
             System.out.println();
         }
