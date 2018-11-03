@@ -50,7 +50,7 @@ class MinMax {
             value = Integer.MIN_VALUE;
 
             for (node<Moves.GameState> child:root.getChildren()){
-                value = Math.max(value, alphaBeta(child,cAlpha,cBeta,fal se));
+                value = Math.max(value, alphaBeta(child,cAlpha,cBeta,false));
                 cAlpha = Math.max(cAlpha,value);
                 if(cAlpha >= cBeta){
                     retState = child.getData();
