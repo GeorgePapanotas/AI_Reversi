@@ -45,7 +45,7 @@ public class Evaluation {
     }
 
     public int Mobility(){
-        int mobilityScore;
+        int mobilityScore = 0;
 
         return mobilityScore;
     }

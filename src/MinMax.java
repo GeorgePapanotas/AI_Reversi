@@ -26,6 +26,7 @@ class MinMax {
         generateChildren(root,player);
         int  l = alphaBeta(root, Integer.MIN_VALUE, Integer.MAX_VALUE, true);
         for(node<Moves.GameState> node : root.getChildren()){
+            //TODO: Why does it always print one result ?
             System.out.println("\nMove Score: "+node.getData().getScore());
             if(l == node.getData().getScore()){
                 return node.getData().getMove();
@@ -40,7 +41,6 @@ class MinMax {
         int cBeta = beta;
         Moves.GameState retState = null;
         if(root.getDepth()==maxDepth || root.isLeaf()){
-            //TODO: Plug in eval
             Evaluation eval = new Evaluation();
             retState = root.getData();
             retState.setScore(eval.evaluate(root.getData().getBoard(),player));

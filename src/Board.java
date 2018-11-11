@@ -54,7 +54,7 @@ public class Board extends Object implements Cloneable{
             System.out.println();
         }
     }
-
+    //TODO: Implement more efficient algorithm
     public void updateBoard(int player,int xpos,int ypos){
         char s = '0';
 

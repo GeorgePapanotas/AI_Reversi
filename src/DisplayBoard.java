@@ -145,11 +145,13 @@ public class DisplayBoard implements Moves{
             System.out.println("Player "+player+" has no available moves. Skipped Turn.");
             player = (player == 1)? 2:1;
             listOfMoves = b.findAvailableMoves(player);
+            //TODO: Check if CPU is able to make move
             b.displayAvailableMoves(listOfMoves);
             if(listOfMoves.isEmpty()){
                 System.out.println("Player "+player+" has no available moves. Game concluded.");
                 return -1;
             }
+            //TODO: Should return ?
         }
 
         MoveCoord move = getMoves(player);
@@ -171,7 +173,6 @@ public class DisplayBoard implements Moves{
     }
 
     private int CPUturn(){
-        //TODO: Implement AI
         minMax.takeTurn(b);
         ScoreCounter(b);
         System.out.println("White: "+scoreW+"   Black: "+scoreB);
