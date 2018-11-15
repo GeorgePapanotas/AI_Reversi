@@ -171,6 +171,11 @@ public class DisplayBoard implements Moves{
     }
 
     private int CPUturn(){
+        if(b.findAvailableMoves(player).isEmpty()) {
+            System.out.println("Player " + player + " has no available moves. Passing turn.");
+            player = (player == 1)? 2:1;
+            return 0;
+        }
         minMax.takeTurn(b);
         ScoreCounter(b);
         System.out.println("White: "+scoreW+"   Black: "+scoreB);

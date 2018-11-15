@@ -15,6 +15,7 @@ class MinMax {
         Board newBoard = null;
         newBoard = new Board(board);
         Moves.MoveCoord bestMove = getBestMove(newBoard);
+        if(bestMove == null) return;
         board.execute(bestMove,player);
         System.out.println("CPU Played: "+(char)('A'+bestMove.getCol()) + "" + (bestMove.getRow()+1));
     }
