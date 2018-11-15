@@ -8,8 +8,6 @@ class MinMax {
     MinMax(int maxDepth, int player){
         this.maxDepth = maxDepth;
         this.player = player;
-//        alpha = Integer.MIN_VALUE;
-//        beta = Integer.MAX_VALUE;
     }
 
     void takeTurn(Board board){
@@ -57,12 +55,9 @@ class MinMax {
                     break;
                 }
             }
-//            retState.setMove();
-//            return root.getData();
             if(retState != null) return retState.getScore();
             else{
                 Collections.sort(root.getChildren(),Collections.reverseOrder());
-                //System.out.println(root.getChildren());
                 return root.getChildren().get(0).getData().getScore();
             }
         }else{
@@ -77,7 +72,6 @@ class MinMax {
                 }
             }
             root.getData().setScore(value);
-//            return root.getData();
             if(retState != null) return retState.getScore();
             else{
                 Collections.sort(root.getChildren());
@@ -87,16 +81,13 @@ class MinMax {
     }
 
     private void generateChildren(node<Moves.GameState> root,int currentPlayer){
-        Board parentBoard = null;
-        parentBoard = new Board(root.getData().getBoard());
+        Board parentBoard = root.getData().getBoard();
         ArrayList<Moves.MoveCoord> listOfMoves = root.getData().getBoard().findAvailableMoves(currentPlayer);
         for (Moves.MoveCoord move : listOfMoves) {
             /*Board copy and execution of move*/
             Board childBoard = null;
             childBoard = new Board(parentBoard);
             childBoard.execute(move,currentPlayer);
-//            childBoard.display();
-//            System.out.println(root.getDepth());
             /*Creation of child node and recursion*/
             Moves.GameState gameState = new Moves.GameState(childBoard, move, 0);
             node<Moves.GameState> child = new node<>(gameState);
